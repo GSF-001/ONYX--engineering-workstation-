@@ -1,11 +1,11 @@
 <div align="center">
 
-#  O N Y X — DevOS
+     O N Y X — DevOS
 ### Engineering Workstation
 
 **Retro look. Modern power. Zero noise.**
+<p align="center"><a href="./LICENSE"><img src="https://img.shields.io/github/license/GSF-001/ONYX-DevOS?style=for-the-badge&label=LICENSE&labelColor=000000&color=6e6e6e" /></a> <a href="#05--architecture"><img src="https://img.shields.io/badge/STATUS-OPERATIONAL-00C853?style=for-the-badge&labelColor=000000" /></a></p>
 
-<p align="center"><a href="./LICENSE"><img src="https://img.shields.io/github/license/GSF-001/ONYX-DevOS?style=for-the-badge&label=LICENSE&labelColor=000000&color=6e6e6e" /></a> <a href="https://nodejs.org"><img src="https://img.shields.io/badge/NODE-%E2%89%A520-339933?style=for-the-badge&labelColor=000000&logo=node.js&logoColor=339933" /></a> <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TYPESCRIPT-STRICT-3178C6?style=for-the-badge&labelColor=000000&logo=typescript&logoColor=3178C6" /></a> <a href="../../stargazers"><img src="https://img.shields.io/github/stars/GSF-001/ONYX-DevOS?style=for-the-badge&label=STARS&labelColor=000000&color=f5c518" /></a> <a href="../../commits/main"><img src="https://img.shields.io/github/last-commit/GSF-001/ONYX-DevOS?style=for-the-badge&label=UPDATED&labelColor=000000&color=6e6e6e" /></a> <a href="#09--contributing"><img src="https://img.shields.io/badge/PRS-WELCOME-00C853?style=for-the-badge&labelColor=000000" /></a> <a href="#05--architecture"><img src="https://img.shields.io/badge/STATUS-OPERATIONAL-00C853?style=for-the-badge&labelColor=000000" /></a></p>
 ---
 
 ## `01` · Overview
@@ -183,17 +183,21 @@ npm run dev
 
 ## `08` · Roadmap
 
-- [x] Auth — GitHub OAuth, JWT, session, CSRF
-- [x] Database schema + auto-migration
-- [x] Webhook pipeline (verify → parse → dispatch → handlers)
-- [x] WebSocket real-time layer
-- [ ] Scoring engine (Bus Factor, Review Health, Commit Decay, etc.)
-- [ ] REST routes (dashboard, repository, PRs, reviews, insights, etc.)
-- [ ] Landing page
-- [ ] Boot sequence + Desktop + Window Manager
-- [ ] Applications (Dashboard, Repository, PRs, Reviews, Issues, Insights, Team, Reports, Heatmap, Terminal)
-- [ ] Command Palette (`Ctrl+K`)
-- [ ] Settings (theme switcher: CRT / Modern / Pixel)
+| Status | Milestone |
+|:---:|---|
+| `DONE` | Auth — GitHub OAuth, JWT, session, CSRF |
+| `DONE` | Database schema + auto-migration |
+| `DONE` | Webhook pipeline (verify → parse → dispatch → handlers) |
+| `DONE` | WebSocket real-time layer |
+| `PLANNED` | Scoring engine (Bus Factor, Review Health, Commit Decay, etc.) |
+| `PLANNED` | REST routes (dashboard, repository, PRs, reviews, insights, etc.) |
+| `PLANNED` | Landing page |
+| `PLANNED` | Boot sequence + Desktop + Window Manager |
+| `PLANNED` | Applications (Dashboard, Repository, PRs, Reviews, Issues, Insights, Team, Reports, Heatmap, Terminal) |
+| `PLANNED` | Command Palette (`Ctrl+K`) |
+| `PLANNED` | Settings (theme switcher: CRT / Modern / Pixel) |
+
+Detailed progress is tracked in [Issues](../../issues) and [Projects](../../projects).
 
 Detailed progress is tracked in [Issues](../../issues) and [Projects](../../projects).
 
