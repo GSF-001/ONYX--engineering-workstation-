@@ -1,0 +1,13 @@
+export { Desktop } from "./Desktop";
+export { DesktopLayout } from "./DesktopLayout";
+export { DesktopBackground } from "./DesktopBackground";
+export { DesktopGrid } from "./DesktopGrid";
+export { DesktopIcon } from "./DesktopIcon";
+export { ContextMenu, type ContextMenuAction } from "./ContextMenu";
+export { useDesktopState, type IconPosition } from "./DesktopState";
+export { Workspace } from "./Workspace";
+export { listWorkspaces, getWorkspace, upsertWorkspace, deleteWorkspace, type NamedWorkspace } from "./WorkspaceManager";
+export { saveWorkspace } from "./SaveWorkspace";
+export { loadWorkspace } from "./LoadWorkspace";
+export { WorkspaceLoadedToast } from "./WorkspaceLoadedToast";
+export { DesktopSettings } from "./DesktopSettings";
