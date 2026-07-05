@@ -1,6 +1,6 @@
 <div align="center">
 
-#  O N Y X — DevOS
+# ⬛ O N Y X — DevOS
 ### Engineering Workstation
 
 **Retro look. Modern power. Zero noise.**
