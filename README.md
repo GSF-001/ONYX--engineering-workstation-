@@ -5,15 +5,41 @@
 
 **Retro look. Modern power. Zero noise.**
 
-[![License: MIT](https://img.shields.io/badge/license-MIT-black.svg)](./LICENSE)
-[![Node](https://img.shields.io/badge/node-%E2%89%A520-339933?logo=node.js&logoColor=white)](https://nodejs.org)
-[![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](#08--contributing)
-[![Zero AI](https://img.shields.io/badge/AI%20required-0%25-black)](#02--philosophy)
+[
 
-`01` [Overview](#01--overview) · `02` [Philosophy](#02--philosophy) · `03` [Features](#03--features) · `04` [Preview](#04--preview) · `05` [Architecture](#05--architecture) · `06` [Tech Stack](#06--tech-stack) · `07` [Getting Started](#07--getting-started) · `08` [Roadmap](#08--roadmap) · `09` [Contributing](#09--contributing)
+![License](https://img.shields.io/github/license/GSF-001/ONYX-DevOS?style=flat-square&color=0a0a0a&labelColor=000000)
 
-</div>
+](./LICENSE)
+[
+
+![Node](https://img.shields.io/badge/node-%E2%89%A520-000000?style=flat-square&logo=node.js&logoColor=339933)
+
+](https://nodejs.org)
+[
+
+![TypeScript](https://img.shields.io/badge/TypeScript-strict-000000?style=flat-square&logo=typescript&logoColor=3178C6)
+
+](https://www.typescriptlang.org/)
+[
+
+![Last Commit](https://img.shields.io/github/last-commit/GSF-001/ONYX-DevOS?style=flat-square&color=0a0a0a&labelColor=000000)
+
+](../../commits/main)
+[
+
+![Stars](https://img.shields.io/github/stars/GSF-001/ONYX-DevOS?style=flat-square&color=0a0a0a&labelColor=000000)
+
+](../../stargazers)
+[
+
+![PRs Welcome](https://img.shields.io/badge/PRs-welcome-000000?style=flat-square)
+
+](#09--contributing)
+[
+
+![Zero AI](https://img.shields.io/badge/AI%20required-0%25-000000?style=flat-square)
+
+](#02--philosophy)
 
 ---
 
