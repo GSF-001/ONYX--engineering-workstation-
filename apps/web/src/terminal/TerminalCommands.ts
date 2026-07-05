@@ -69,8 +69,6 @@ export function createTerminalRegistry(): CommandRegistry {
   registry.register("clear", (_args, ctx) => ctx.clear());
 
   registry.register("whoami", (_args, ctx) => {
-    // Left generic — actual identity is injected by Terminal.tsx via
-    // a closure-bound context rather than hardcoded here.
     ctx.print(["Run from inside the app; user identity is shown in the prompt."]);
   });
 
