@@ -130,7 +130,7 @@ web/src/
 ```
 </details>
 
-> The tree above only covers what's implemented so far. The full planned structure (including `applications/`, `taskbar/`, `terminal/`, `desktop/`, and more) lives in [`struktur.md`](./struktur%20awal.md).
+> The tree above only covers what's implemented so far. The full planned structure (including `applications/`, `taskbar/`, `terminal/`, `desktop/`, and more) lives in [`struktur.md`](./struktur%100.md).
 
 > 📌 Full structure (including `applications/`, `taskbar/`, `terminal/`, etc.) is documented in [`struktur.md`]
 
