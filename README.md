@@ -5,42 +5,7 @@
 
 **Retro look. Modern power. Zero noise.**
 
-[
-
-![License](https://img.shields.io/github/license/GSF-001/ONYX-DevOS?style=flat-square&color=0a0a0a&labelColor=000000)
-
-](./LICENSE)
-[
-
-![Node](https://img.shields.io/badge/node-%E2%89%A520-000000?style=flat-square&logo=node.js&logoColor=339933)
-
-](https://nodejs.org)
-[
-
-![TypeScript](https://img.shields.io/badge/TypeScript-strict-000000?style=flat-square&logo=typescript&logoColor=3178C6)
-
-](https://www.typescriptlang.org/)
-[
-
-![Last Commit](https://img.shields.io/github/last-commit/GSF-001/ONYX-DevOS?style=flat-square&color=0a0a0a&labelColor=000000)
-
-](../../commits/main)
-[
-
-![Stars](https://img.shields.io/github/stars/GSF-001/ONYX-DevOS?style=flat-square&color=0a0a0a&labelColor=000000)
-
-](../../stargazers)
-[
-
-![PRs Welcome](https://img.shields.io/badge/PRs-welcome-000000?style=flat-square)
-
-](#09--contributing)
-[
-
-![Zero AI](https://img.shields.io/badge/AI%20required-0%25-000000?style=flat-square)
-
-](#02--philosophy)
-
+<p align="center"><a href="./LICENSE"><img src="https://img.shields.io/github/license/GSF-001/ONYX-DevOS?style=for-the-badge&label=LICENSE&labelColor=000000&color=6e6e6e" /></a> <a href="https://nodejs.org"><img src="https://img.shields.io/badge/NODE-%E2%89%A520-339933?style=for-the-badge&labelColor=000000&logo=node.js&logoColor=339933" /></a> <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TYPESCRIPT-STRICT-3178C6?style=for-the-badge&labelColor=000000&logo=typescript&logoColor=3178C6" /></a> <a href="../../stargazers"><img src="https://img.shields.io/github/stars/GSF-001/ONYX-DevOS?style=for-the-badge&label=STARS&labelColor=000000&color=f5c518" /></a> <a href="../../commits/main"><img src="https://img.shields.io/github/last-commit/GSF-001/ONYX-DevOS?style=for-the-badge&label=UPDATED&labelColor=000000&color=6e6e6e" /></a> <a href="#09--contributing"><img src="https://img.shields.io/badge/PRS-WELCOME-00C853?style=for-the-badge&labelColor=000000" /></a> <a href="#05--architecture"><img src="https://img.shields.io/badge/STATUS-OPERATIONAL-00C853?style=for-the-badge&labelColor=000000" /></a></p>
 ---
 
 ## `01` · Overview
