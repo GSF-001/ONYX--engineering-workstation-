@@ -12,9 +12,12 @@ export interface WindowAppDefinition {
 
 /**
  * Maps an appId to the component rendered inside its window. App
- * components themselves live under `../apps/<id>` — not part of this
- * batch, so they're lazy-imported by convention; adding a new app means
- * adding one entry here plus the matching file at that path.
+ * components themselves live under `../applications/<Name>` (per-app
+ * folders with *App.tsx as default export) — except "terminal", whose
+ * real implementation lives at the top-level `../terminal/Terminal`
+ * module; `../applications/Terminal` is just a thin re-export wrapper
+ * around it, but importing the real module directly here avoids an
+ * unnecessary extra hop.
  */
 export const WINDOW_REGISTRY: Record<string, WindowAppDefinition> = {
   dashboard: {
@@ -23,7 +26,7 @@ export const WINDOW_REGISTRY: Record<string, WindowAppDefinition> = {
     icon: "dashboard",
     defaultWidth: 760,
     defaultHeight: 520,
-    component: lazy(() => import("../apps/Dashboard")),
+    component: lazy(() => import("../applications/Dashboard")),
   },
   repository: {
     id: "repository",
@@ -31,7 +34,7 @@ export const WINDOW_REGISTRY: Record<string, WindowAppDefinition> = {
     icon: "repository",
     defaultWidth: 640,
     defaultHeight: 460,
-    component: lazy(() => import("../apps/Repository")),
+    component: lazy(() => import("../applications/Repository")),
   },
   pullRequests: {
     id: "pullRequests",
@@ -39,7 +42,7 @@ export const WINDOW_REGISTRY: Record<string, WindowAppDefinition> = {
     icon: "pullRequests",
     defaultWidth: 720,
     defaultHeight: 480,
-    component: lazy(() => import("../apps/PullRequests")),
+    component: lazy(() => import("../applications/PullRequests")),
   },
   reviews: {
     id: "reviews",
@@ -47,7 +50,7 @@ export const WINDOW_REGISTRY: Record<string, WindowAppDefinition> = {
     icon: "reviews",
     defaultWidth: 680,
     defaultHeight: 460,
-    component: lazy(() => import("../apps/Reviews")),
+    component: lazy(() => import("../applications/Reviews")),
   },
   issues: {
     id: "issues",
@@ -55,7 +58,7 @@ export const WINDOW_REGISTRY: Record<string, WindowAppDefinition> = {
     icon: "issues",
     defaultWidth: 640,
     defaultHeight: 440,
-    component: lazy(() => import("../apps/Issues")),
+    component: lazy(() => import("../applications/Issues")),
   },
   insights: {
     id: "insights",
@@ -63,7 +66,7 @@ export const WINDOW_REGISTRY: Record<string, WindowAppDefinition> = {
     icon: "insights",
     defaultWidth: 720,
     defaultHeight: 520,
-    component: lazy(() => import("../apps/Insights")),
+    component: lazy(() => import("../applications/Insights")),
   },
   team: {
     id: "team",
@@ -71,7 +74,7 @@ export const WINDOW_REGISTRY: Record<string, WindowAppDefinition> = {
     icon: "team",
     defaultWidth: 680,
     defaultHeight: 460,
-    component: lazy(() => import("../apps/Team")),
+    component: lazy(() => import("../applications/Team")),
   },
   reports: {
     id: "reports",
@@ -79,7 +82,7 @@ export const WINDOW_REGISTRY: Record<string, WindowAppDefinition> = {
     icon: "reports",
     defaultWidth: 560,
     defaultHeight: 420,
-    component: lazy(() => import("../apps/Reports")),
+    component: lazy(() => import("../applications/Reports")),
   },
   heatmap: {
     id: "heatmap",
@@ -87,7 +90,15 @@ export const WINDOW_REGISTRY: Record<string, WindowAppDefinition> = {
     icon: "heatmap",
     defaultWidth: 720,
     defaultHeight: 420,
-    component: lazy(() => import("../apps/Heatmap")),
+    component: lazy(() => import("../applications/Heatmap")),
+  },
+  activity: {
+    id: "activity",
+    title: "Activity",
+    icon: "activity",
+    defaultWidth: 640,
+    defaultHeight: 440,
+    component: lazy(() => import("../applications/Activity")),
   },
   terminal: {
     id: "terminal",
@@ -95,7 +106,7 @@ export const WINDOW_REGISTRY: Record<string, WindowAppDefinition> = {
     icon: "terminal",
     defaultWidth: 600,
     defaultHeight: 380,
-    component: lazy(() => import("../apps/Terminal")),
+    component: lazy(() => import("../terminal/Terminal")),
   },
   settings: {
     id: "settings",
@@ -103,7 +114,7 @@ export const WINDOW_REGISTRY: Record<string, WindowAppDefinition> = {
     icon: "settings",
     defaultWidth: 600,
     defaultHeight: 440,
-    component: lazy(() => import("../apps/Settings")),
+    component: lazy(() => import("../applications/Settings")),
   },
 };
 
