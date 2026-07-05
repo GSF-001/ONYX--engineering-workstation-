@@ -11,11 +11,10 @@ import { HeatmapIcon } from "./Heatmap";
 import { ActivityIcon } from "./Activity";
 import { TerminalIcon } from "./Terminal";
 import { SettingsIcon } from "./Settings";
+import { CommunityIcon } from "./Community";
+import { GroupsIcon } from "./Groups";
+import { ProfileIcon } from "./Profile";
 
-/** Maps the `icon` string on each WindowAppDefinition (window-manager/
- * WindowRegistry.ts) to its actual pixel-art component. Central lookup so
- * DesktopIcon and Taskbar render identically without each hardcoding a
- * switch statement. */
 export const APP_ICONS: Record<string, ComponentType> = {
   dashboard: DashboardIcon,
   repository: RepositoryIcon,
@@ -29,19 +28,13 @@ export const APP_ICONS: Record<string, ComponentType> = {
   activity: ActivityIcon,
   terminal: TerminalIcon,
   settings: SettingsIcon,
+  community: CommunityIcon,
+  groups: GroupsIcon,
+  profile: ProfileIcon,
 };
 
 export {
-  DashboardIcon,
-  RepositoryIcon,
-  PullRequestsIcon,
-  ReviewsIcon,
-  IssuesIcon,
-  InsightsIcon,
-  TeamIcon,
-  ReportsIcon,
-  HeatmapIcon,
-  ActivityIcon,
-  TerminalIcon,
-  SettingsIcon,
+  DashboardIcon, RepositoryIcon, PullRequestsIcon, ReviewsIcon, IssuesIcon,
+  InsightsIcon, TeamIcon, ReportsIcon, HeatmapIcon, ActivityIcon,
+  TerminalIcon, SettingsIcon, CommunityIcon, GroupsIcon, ProfileIcon,
 };
