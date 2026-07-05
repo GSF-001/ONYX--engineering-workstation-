@@ -28,9 +28,8 @@ WORK
 
 <div align="center">
 
-![ONYX Preview](https://raw.githubusercontent.com/GSF-001/ONYX-DevOS/main/file_00000000f1a47207bac6f5d32a9630bd.png)
-
-</div>
+  ##### ONYX Preview
+![alt text](https://github.com/GSF-001/ONYX-DevOS/blob/main/OVERviews.png?raw=true)
 
 ---
 
@@ -61,7 +60,7 @@ No AI API key to buy, no subscription to an LLM. Every insight (*Bus Factor, Rev
 <summary><strong>Full Feature Preview</strong></summary>
 <br>
 
-![ONYX Full Feature Preview](https://raw.githubusercontent.com/GSF-001/ONYX-DevOS/main/file_000000009bf071fa85f152f58c698511.png)
+![alt text](https://github.com/GSF-001/ONYX-DevOS/blob/main/Fitur%20preview.png?raw=true)
 
 </details>
 
@@ -69,7 +68,8 @@ No AI API key to buy, no subscription to an LLM. Every insight (*Bus Factor, Rev
 <summary><strong>Desktop — Connected Repository View</strong></summary>
 <br>
 
-![ONYX Desktop View](https://raw.githubusercontent.com/GSF-001/ONYX-DevOS/main/file_0000000015d87207a831da887cf158d3.png)
+   ![alt text](https://github.com/GSF-001/ONYX-DevOS/blob/main/file_0000000015d87207a831da887cf158d3.png?raw=true)
+
 
 </details>
 
