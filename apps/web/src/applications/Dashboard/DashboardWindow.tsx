@@ -9,6 +9,7 @@ import { useWindowManager } from "../../window-manager";
 import type { useDashboardData } from "./DashboardHooks";
 import { useState } from "react";
 import { DashboardAPI } from "./DashboardAPI";
+import { TrendChart, ActivityFeed } from "./DashboardOverview";
 
 interface DashboardWindowProps {
   data: ReturnType<typeof useDashboardData>;
