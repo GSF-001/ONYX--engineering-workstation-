@@ -60,7 +60,7 @@ No AI API key to buy, no subscription to an LLM. Every insight (*Bus Factor, Rev
 <summary><strong>Full Feature Preview</strong></summary>
 <br>
 
-![alt text](https://github.com/GSF-001/ONYX-DevOS/blob/main/Fitur%20preview.png?raw=true)
+![alt text](https://github.com/GSF-001/ONYX-DevOS/blob/main/file_000000009bf071fa85f152f58c698511.png?raw=true)
 
 </details>
 
