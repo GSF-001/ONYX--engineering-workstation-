@@ -8,14 +8,14 @@ import { getCurrentUser } from "./shared/api";
  * - "landing" is public.
  * - "auth" kicks off the GitHub OAuth redirect; it doesn't render a page
  *   the user lingers on.
- * - "boot" and everything under "desktop" require a valid session. Anyone
- *   hitting those URLs directly without one is bounced back to "landing".
+ * - "boot", "desktop", "shutdown", and "restart" require a valid session.
+ *   Anyone hitting those URLs directly without one is bounced to "landing".
  * - Anyone who already has a session hitting "landing" or "auth" again is
- *   forwarded straight to "boot", so people don't re-see the marketing page
- *   after signing in.
+ *   forwarded straight to "boot".
  *
- * Page components (Landing, Boot, Desktop and its sub-apps) are expected at
- * ./pages/* and ./desktop/applications/* — this file only owns the flow.
+ * Page components live at ./pages/* (thin route-level wrappers) and compose
+ * real modules from ./landing, ./boot, ./window-manager, ./taskbar,
+ * ./command-palette, ./notifications.
  */
 
 async function requireSession() {
@@ -43,7 +43,7 @@ export const router = createBrowserRouter([
         index: true,
         loader: redirectIfAuthenticated,
         lazy: async () => {
-          const { LandingPage } = await import("./pages/LandingPage");
+          const { LandingPage } = await import("./landing");
           return { Component: LandingPage };
         },
       },
@@ -62,8 +62,8 @@ export const router = createBrowserRouter([
         path: "boot",
         loader: requireSession,
         lazy: async () => {
-          const { BootPage } = await import("./pages/BootPage");
-          return { Component: BootPage };
+          const { BootScreen } = await import("./boot");
+          return { Component: BootScreen };
         },
       },
       {
@@ -72,6 +72,22 @@ export const router = createBrowserRouter([
         lazy: async () => {
           const { DesktopPage } = await import("./pages/DesktopPage");
           return { Component: DesktopPage };
+        },
+      },
+      {
+        path: "shutdown",
+        loader: requireSession,
+        lazy: async () => {
+          const { ShutdownScreen } = await import("./boot");
+          return { Component: ShutdownScreen };
+        },
+      },
+      {
+        path: "restart",
+        loader: requireSession,
+        lazy: async () => {
+          const { RestartScreen } = await import("./boot");
+          return { Component: RestartScreen };
         },
       },
       {
