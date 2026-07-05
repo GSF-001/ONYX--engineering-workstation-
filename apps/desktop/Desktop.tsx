@@ -5,14 +5,7 @@ import { DesktopGrid } from "./DesktopGrid";
 import { ContextMenu, type ContextMenuAction } from "./ContextMenu";
 import { useDesktopState } from "./DesktopState";
 import { WorkspaceLoadedToast } from "./WorkspaceLoadedToast";
-import { loadWorkspace } from "./LoadWorkspace";
-import {
-  WindowManager,
-  useWindowManager,
-  useWindowContext,
-  WINDOW_REGISTRY,
-  saveWindowLayout,
-} from "../window-manager";
+import { WindowManager, useWindowManager, WINDOW_REGISTRY, saveWindowLayout } from "../window-manager";
 import { Taskbar } from "../taskbar";
 import { CommandPalette } from "../command-palette";
 import { NotificationManager, Popup, LiveNotification } from "../notifications";
@@ -21,9 +14,14 @@ import { ThemeProvider } from "../theme";
 const APP_IDS = Object.keys(WINDOW_REGISTRY);
 const APP_LABELS = Object.fromEntries(APP_IDS.map((id) => [id, WINDOW_REGISTRY[id].title]));
 
-function DesktopInner() {
+/**
+ * Everything that isn't a window frame: icon grid, taskbar, context menus,
+ * command palette, toasts. Rendered as WindowManager's `children`, so it's
+ * inside the same WindowContextProvider the window frames use — one
+ * shared window state for the whole desktop, not two competing ones.
+ */
+function DesktopChrome() {
   const manager = useWindowManager();
-  const { dispatch } = useWindowContext();
   const desktop = useDesktopState(APP_IDS, APP_LABELS);
   const [menu, setMenu] = useState<{ x: number; y: number; actions: ContextMenuAction[] } | null>(null);
   const [loadedWorkspaceName, setLoadedWorkspaceName] = useState<string | null>(null);
@@ -34,10 +32,8 @@ function DesktopInner() {
       y: e.clientY,
       actions: [
         { label: "Refresh", onSelect: () => window.location.reload() },
-        { divider: true, label: "", onSelect: () => undefined },
         { label: "Save current layout...", onSelect: () => manager.open("settings") },
         { label: "Reset icon layout", onSelect: desktop.resetLayout },
-        { divider: true, label: "", onSelect: () => undefined },
         { label: "Desktop Settings...", onSelect: () => manager.open("settings") },
       ],
     });
@@ -50,11 +46,7 @@ function DesktopInner() {
       actions: [
         { label: "Open", onSelect: () => manager.open(appId) },
         { label: "Rename", onSelect: () => desktop.setRenamingAppId(appId) },
-        { divider: true, label: "", onSelect: () => undefined },
-        {
-          label: "Save layout snapshot",
-          onSelect: () => saveWindowLayout(manager.windows),
-        },
+        { label: "Save layout snapshot", onSelect: () => saveWindowLayout(manager.windows) },
       ],
     });
   };
@@ -76,14 +68,16 @@ function DesktopInner() {
           onIconContextMenu={openIconMenu}
         />
       }
-      windows={<WindowManager />}
       taskbar={<Taskbar />}
       overlays={
         <>
           <CommandPalette />
           <Popup />
           <LiveNotification />
-          <WorkspaceLoadedToast workspaceName={loadedWorkspaceName} onDismiss={() => setLoadedWorkspaceName(null)} />
+          <WorkspaceLoadedToast
+            workspaceName={loadedWorkspaceName}
+            onDismiss={() => setLoadedWorkspaceName(null)}
+          />
           {menu && <ContextMenu x={menu.x} y={menu.y} actions={menu.actions} onClose={() => setMenu(null)} />}
         </>
       }
@@ -92,35 +86,20 @@ function DesktopInner() {
 }
 
 /**
- * Top-level desktop composition — the real replacement for the temporary
- * DesktopIconGrid stand-in in pages/DesktopPage.tsx. Mounts the theme,
- * notification store, and window manager exactly once, wires the desktop
- * icon grid to real drag/rename/context-menu behavior, and renders the
- * taskbar + command palette + live notifications alongside it.
+ * Top-level desktop composition, replacing the temporary DesktopIconGrid
+ * stand-in in pages/DesktopPage.tsx. WindowManager owns the single
+ * WindowContextProvider for the whole desktop — DesktopChrome (icons,
+ * taskbar, menus) and the actual window frames (rendered internally by
+ * WindowManager) both read from that one shared state.
  */
 export function Desktop() {
   return (
     <ThemeProvider>
       <NotificationManager>
-        <WindowManagerRoot />
+        <WindowManager>
+          <DesktopChrome />
+        </WindowManager>
       </NotificationManager>
     </ThemeProvider>
-  );
-}
-
-/** Splits out because DesktopInner needs useWindowContext/useWindowManager,
- * which only exist inside WindowManager's own provider. */
-function WindowManagerRoot() {
-  return (
-    <WindowProviderBoundary />
-  );
-}
-
-function WindowProviderBoundary() {
-  const { WindowContextProvider } = require("../window-manager/WindowContext") as typeof import("../window-manager/WindowContext");
-  return (
-    <WindowContextProvider>
-      <DesktopInner />
-    </WindowContextProvider>
   );
 }
