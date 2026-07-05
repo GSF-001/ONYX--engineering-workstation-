@@ -18,18 +18,34 @@ import { getCurrentUser } from "./shared/api";
  * ./command-palette, ./notifications.
  */
 
+import { createBrowserRouter, redirect } from "react-router-dom";
+import App from "./App";
+import { getCurrentUser } from "./shared/api";
+import { IdentityAPI } from "./identity";
+
 async function requireSession() {
   const user = await getCurrentUser().catch(() => null);
-  if (!user) {
-    throw redirect("/");
-  }
+  if (!user) throw redirect("/");
   return user;
+}
+
+/** Requires both a valid session AND a confirmed ONYX identity — used for
+ * every route past the identity picker (boot, desktop, shutdown, restart). */
+async function requireIdentity() {
+  const user = await getCurrentUser().catch(() => null);
+  if (!user) throw redirect("/");
+
+  const identity = await IdentityAPI.getMe().catch(() => null);
+  if (!identity) throw redirect("/identity");
+
+  return { user, identity };
 }
 
 async function redirectIfAuthenticated() {
   const user = await getCurrentUser().catch(() => null);
   if (user) {
-    throw redirect("/boot");
+    const identity = await IdentityAPI.getMe().catch(() => null);
+    throw redirect(identity ? "/boot" : "/identity");
   }
   return null;
 }
@@ -59,8 +75,16 @@ export const router = createBrowserRouter([
         },
       },
       {
-        path: "boot",
+        path: "identity",
         loader: requireSession,
+        lazy: async () => {
+          const { IdentityPicker } = await import("./identity");
+          return { Component: IdentityPicker };
+        },
+      },
+      {
+        path: "boot",
+        loader: requireIdentity,
         lazy: async () => {
           const { BootScreen } = await import("./boot");
           return { Component: BootScreen };
@@ -68,7 +92,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "desktop",
-        loader: requireSession,
+        loader: requireIdentity,
         lazy: async () => {
           const { DesktopPage } = await import("./pages/DesktopPage");
           return { Component: DesktopPage };
@@ -76,7 +100,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "shutdown",
-        loader: requireSession,
+        loader: requireIdentity,
         lazy: async () => {
           const { ShutdownScreen } = await import("./boot");
           return { Component: ShutdownScreen };
@@ -84,7 +108,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "restart",
-        loader: requireSession,
+        loader: requireIdentity,
         lazy: async () => {
           const { RestartScreen } = await import("./boot");
           return { Component: RestartScreen };
