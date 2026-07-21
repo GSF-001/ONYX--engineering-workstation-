@@ -1,15 +1,18 @@
 import { createBrowserRouter, redirect } from "react-router-dom";
 import App from "./App";
 import { getCurrentUser } from "./shared/api";
+import { IdentityAPI } from "./identity";
 
 /**
  * Enforced flow: landing -> auth -> boot -> desktop.
  *
- * - "landing" is public.
+ * - "landing" is public. "features" is also public (full feature preview,
+ *   linked from landing's teaser grid).
  * - "auth" kicks off the GitHub OAuth redirect; it doesn't render a page
  *   the user lingers on.
- * - "boot", "desktop", "shutdown", and "restart" require a valid session.
- *   Anyone hitting those URLs directly without one is bounced to "landing".
+ * - "boot", "desktop", "shutdown", and "restart" require a valid session
+ *   AND a confirmed identity. Anyone hitting those URLs directly without
+ *   one is bounced to "landing" or "identity".
  * - Anyone who already has a session hitting "landing" or "auth" again is
  *   forwarded straight to "boot".
  *
@@ -17,11 +20,6 @@ import { getCurrentUser } from "./shared/api";
  * real modules from ./landing, ./boot, ./window-manager, ./taskbar,
  * ./command-palette, ./notifications.
  */
-
-import { createBrowserRouter, redirect } from "react-router-dom";
-import App from "./App";
-import { getCurrentUser } from "./shared/api";
-import { IdentityAPI } from "./identity";
 
 async function requireSession() {
   const user = await getCurrentUser().catch(() => null);
@@ -61,6 +59,13 @@ export const router = createBrowserRouter([
         lazy: async () => {
           const { LandingPage } = await import("./landing");
           return { Component: LandingPage };
+        },
+      },
+      {
+        path: "features",
+        lazy: async () => {
+          const { FeaturesPage } = await import("./pages/FeaturesPage");
+          return { Component: FeaturesPage };
         },
       },
       {
