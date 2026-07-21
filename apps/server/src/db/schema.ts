@@ -269,6 +269,67 @@ export const exportJobs = pgTable("export_jobs", {
   completedAt: timestamp("completed_at"),
 });
 
+export const communityPosts = pgTable(
+  "community_posts",
+  {
+    id: serial("id").primaryKey(),
+    authorId: integer("author_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    type: text("type", { enum: ["project", "discussion", "showcase", "event"] }).notNull(),
+    title: text("title").notNull(),
+    body: text("body").notNull(),
+    url: text("url"),
+    eventAt: timestamp("event_at"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (t) => ({
+    typeIdx: index("community_posts_type_idx").on(t.type),
+    createdAtIdx: index("community_posts_created_at_idx").on(t.createdAt),
+  })
+);
+
+export const communityPostLikes = pgTable(
+  "community_post_likes",
+  {
+    id: serial("id").primaryKey(),
+    postId: integer("post_id")
+      .notNull()
+      .references(() => communityPosts.id, { onDelete: "cascade" }),
+    userId: integer("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (t) => ({
+    postUserIdx: uniqueIndex("community_post_likes_post_user_idx").on(t.postId, t.userId),
+  })
+);
+
+export const communityPostComments = pgTable(
+  "community_post_comments",
+  {
+    id: serial("id").primaryKey(),
+    postId: integer("post_id")
+      .notNull()
+      .references(() => communityPosts.id, { onDelete: "cascade" }),
+    authorId: integer("author_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    body: text("body").notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (t) => ({
+    postIdx: index("community_post_comments_post_idx").on(t.postId),
+  })
+);
+
+export const communityPostsRelations = relations(communityPosts, ({ many, one }) => ({
+  likes: many(communityPostLikes),
+  comments: many(communityPostComments),
+  author: one(users, { fields: [communityPosts.authorId], references: [users.id] }),
+}));
+
 export const usersRelations = relations(users, ({ many }) => ({
   sessions: many(sessions),
   teamMemberships: many(teamMembers),
