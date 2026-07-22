@@ -1,0 +1,525 @@
+/* GitGraphStyles.css
+   Deep-ink developer-tool theme. Lane colors cycle through a curated
+   amber/teal/violet/rose/sage/sky palette rather than default git red/green,
+   since this is a topology viewer, not a diff-only tool. */
+
+.git-graph-window {
+  --gg-bg-app: #11141c;
+  --gg-bg-surface: #171b26;
+  --gg-bg-raised: #1e2330;
+  --gg-border: #2a3040;
+  --gg-text-primary: #e7e9f0;
+  --gg-text-secondary: #9aa1b4;
+  --gg-text-muted: #666e83;
+  --gg-accent: #e0a458;
+  --gg-add: #7ec99b;
+  --gg-remove: #d9808a;
+  --gg-font-ui: "Inter", "Segoe UI", system-ui, sans-serif;
+  --gg-font-mono: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  height: 100%;
+  width: 100%;
+  background: var(--gg-bg-app);
+  color: var(--gg-text-primary);
+  font-family: var(--gg-font-ui);
+  font-size: 13px;
+}
+
+.git-mono {
+  font-family: var(--gg-font-mono);
+}
+
+/* Header */
+.git-graph-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--gg-border);
+  background: var(--gg-bg-surface);
+}
+.git-graph-header-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+.git-graph-header-icon {
+  color: var(--gg-accent);
+}
+.git-graph-header-branch {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border: 1px solid;
+  border-radius: 999px;
+  font-size: 12px;
+  font-family: var(--gg-font-mono);
+}
+.git-graph-header-branch-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+/* Toolbar */
+.git-graph-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 16px;
+  border-bottom: 1px solid var(--gg-border);
+  background: var(--gg-bg-app);
+}
+.git-graph-toolbar-search {
+  flex: 1;
+  max-width: 360px;
+  background: var(--gg-bg-surface);
+  border: 1px solid var(--gg-border);
+  border-radius: 6px;
+  color: var(--gg-text-primary);
+  padding: 6px 10px;
+  font-size: 12.5px;
+}
+.git-graph-toolbar-search:focus {
+  outline: 2px solid var(--gg-accent);
+  outline-offset: 1px;
+}
+.git-graph-toolbar-zoom {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--gg-text-secondary);
+}
+.git-graph-toolbar-zoom button,
+.git-graph-toolbar-reset,
+.git-graph-toolbar-clear {
+  background: var(--gg-bg-surface);
+  border: 1px solid var(--gg-border);
+  color: var(--gg-text-primary);
+  border-radius: 5px;
+  padding: 4px 9px;
+  cursor: pointer;
+}
+.git-graph-toolbar-zoom button:hover,
+.git-graph-toolbar-reset:hover,
+.git-graph-toolbar-clear:hover {
+  border-color: var(--gg-accent);
+}
+.git-graph-toolbar-zoom-value {
+  font-family: var(--gg-font-mono);
+  width: 42px;
+  text-align: center;
+  color: var(--gg-text-secondary);
+}
+.git-graph-toolbar-clear {
+  margin-left: auto;
+}
+
+/* Body grid */
+.git-graph-window-body {
+  display: grid;
+  grid-template-columns: 200px 1fr 320px;
+  min-height: 0;
+}
+.git-graph-window-canvas {
+  position: relative;
+  border-left: 1px solid var(--gg-border);
+  border-right: 1px solid var(--gg-border);
+  min-height: 0;
+  overflow: hidden;
+}
+.git-graph-window-details {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+/* Branch sidebar */
+.branch-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 14px 12px;
+  overflow-y: auto;
+  background: var(--gg-bg-app);
+}
+.branch-sidebar-heading {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--gg-text-muted);
+  margin: 0 0 6px;
+}
+.branch-sidebar-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.branch-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 6px;
+  border-radius: 5px;
+}
+.branch-item.current {
+  background: var(--gg-bg-raised);
+}
+.branch-item-color {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.branch-item-name {
+  background: none;
+  border: none;
+  color: var(--gg-text-primary);
+  font-family: var(--gg-font-mono);
+  font-size: 12px;
+  text-align: left;
+  cursor: pointer;
+  flex: 1;
+  padding: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.branch-item-name:hover {
+  color: var(--gg-accent);
+}
+.branch-item.remote .branch-item-name {
+  color: var(--gg-text-secondary);
+  cursor: default;
+}
+.branch-item-delete {
+  background: none;
+  border: none;
+  color: var(--gg-text-muted);
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+}
+.branch-item-delete:hover {
+  color: var(--gg-remove);
+}
+.branch-sidebar-create {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid var(--gg-border);
+}
+.branch-sidebar-input {
+  background: var(--gg-bg-surface);
+  border: 1px solid var(--gg-border);
+  border-radius: 5px;
+  color: var(--gg-text-primary);
+  padding: 5px 8px;
+  font-family: var(--gg-font-mono);
+  font-size: 11.5px;
+}
+.branch-sidebar-create-button {
+  background: var(--gg-bg-raised);
+  border: 1px solid var(--gg-border);
+  color: var(--gg-text-primary);
+  border-radius: 5px;
+  padding: 5px 8px;
+  cursor: pointer;
+  font-size: 12px;
+}
+.branch-sidebar-create-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.branch-sidebar-create-button:not(:disabled):hover {
+  border-color: var(--gg-accent);
+}
+
+/* Topology canvas */
+.repository-topology-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.repository-topology-svg {
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+  background-image: radial-gradient(circle, #1c2130 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+.repository-topology-svg.dragging {
+  cursor: grabbing;
+}
+.repository-topology-empty {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--gg-text-muted);
+}
+.git-branch-lane {
+  transition: opacity 0.15s ease;
+}
+.git-commit-node-dot {
+  cursor: pointer;
+  transition: r 0.1s ease;
+}
+.git-commit-node-head-badge {
+  font-family: var(--gg-font-mono);
+  font-size: 8px;
+  fill: var(--gg-accent);
+  letter-spacing: 0.05em;
+}
+.git-commit-node-tooltip {
+  background: var(--gg-bg-raised);
+  border: 1px solid var(--gg-border);
+  border-radius: 6px;
+  padding: 6px 9px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+}
+.git-commit-node-tooltip-message {
+  font-size: 12px;
+  color: var(--gg-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.git-commit-node-tooltip-meta {
+  font-size: 10.5px;
+  color: var(--gg-text-secondary);
+  margin-top: 2px;
+}
+
+/* MiniMap */
+.minimap {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  width: 130px;
+  background: rgba(23, 27, 38, 0.9);
+  border: 1px solid var(--gg-border);
+  border-radius: 8px;
+  padding: 6px;
+  backdrop-filter: blur(4px);
+}
+.minimap-svg {
+  width: 100%;
+  height: 160px;
+}
+.minimap-dot {
+  cursor: pointer;
+}
+.minimap-label {
+  display: block;
+  text-align: center;
+  font-size: 10px;
+  color: var(--gg-text-muted);
+  margin-top: 4px;
+}
+
+/* Commit inspector */
+.commit-inspector {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--gg-border);
+}
+.commit-inspector.empty {
+  color: var(--gg-text-muted);
+}
+.commit-inspector-message {
+  font-size: 14px;
+  margin: 0 0 8px;
+}
+.commit-inspector-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 11.5px;
+  color: var(--gg-text-secondary);
+  align-items: center;
+}
+.commit-inspector-branch-badge {
+  background: var(--gg-bg-raised);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-family: var(--gg-font-mono);
+}
+.commit-inspector-parents {
+  margin-top: 8px;
+  font-size: 11px;
+  color: var(--gg-text-muted);
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.commit-inspector-parent-hash {
+  color: var(--gg-text-secondary);
+}
+.commit-inspector-files {
+  margin-top: 14px;
+}
+.commit-inspector-files-heading {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--gg-text-muted);
+  margin: 0 0 8px;
+}
+.commit-inspector-no-files {
+  color: var(--gg-text-muted);
+  font-size: 12px;
+}
+.commit-inspector-file-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.commit-inspector-file-button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 6px;
+  color: var(--gg-text-primary);
+  cursor: pointer;
+  text-align: left;
+}
+.commit-inspector-file-button:hover,
+.commit-inspector-file-button.active {
+  background: var(--gg-bg-raised);
+}
+.commit-inspector-file-status {
+  font-family: var(--gg-font-mono);
+  font-size: 10.5px;
+  width: 16px;
+  text-align: center;
+  border-radius: 3px;
+}
+.commit-inspector-file-status.status-added { color: var(--gg-add); }
+.commit-inspector-file-status.status-modified { color: var(--gg-accent); }
+.commit-inspector-file-status.status-deleted { color: var(--gg-remove); }
+.commit-inspector-file-status.status-renamed { color: #6fa8d1; }
+.commit-inspector-file-path {
+  flex: 1;
+  font-family: var(--gg-font-mono);
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.commit-inspector-file-stats {
+  font-family: var(--gg-font-mono);
+  font-size: 11px;
+}
+.stat-add { color: var(--gg-add); }
+.stat-remove { color: var(--gg-remove); }
+
+/* Diff preview */
+.diff-preview {
+  padding: 14px 16px;
+  overflow-y: auto;
+}
+.diff-preview.empty {
+  color: var(--gg-text-muted);
+}
+.diff-preview-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 12px;
+}
+.diff-preview-path {
+  color: var(--gg-text-primary);
+}
+.diff-preview-body {
+  border: 1px solid var(--gg-border);
+  border-radius: 6px;
+  overflow: hidden;
+  font-size: 12px;
+}
+.diff-preview-line {
+  display: grid;
+  grid-template-columns: 32px 32px 14px 1fr;
+  padding: 0 6px;
+}
+.diff-preview-line-number {
+  color: var(--gg-text-muted);
+  text-align: right;
+  padding-right: 6px;
+  user-select: none;
+}
+.diff-preview-line-marker {
+  text-align: center;
+  user-select: none;
+}
+.diff-line-add {
+  background: rgba(126, 201, 155, 0.1);
+}
+.diff-line-add .diff-preview-line-marker,
+.diff-line-add .diff-preview-line-content {
+  color: var(--gg-add);
+}
+.diff-line-remove {
+  background: rgba(217, 128, 138, 0.1);
+}
+.diff-line-remove .diff-preview-line-marker,
+.diff-line-remove .diff-preview-line-content {
+  color: var(--gg-remove);
+}
+.diff-line-context .diff-preview-line-content {
+  color: var(--gg-text-secondary);
+}
+.diff-preview-line-content {
+  white-space: pre;
+  overflow-x: auto;
+}
+
+/* Status bar */
+.git-graph-status-bar {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 6px 16px;
+  border-top: 1px solid var(--gg-border);
+  background: var(--gg-bg-surface);
+  font-size: 11.5px;
+  color: var(--gg-text-secondary);
+}
+.git-graph-status-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.git-graph-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+.git-graph-status-selection {
+  margin-left: auto;
+  font-family: var(--gg-font-mono);
+  color: var(--gg-text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 50%;
+}
