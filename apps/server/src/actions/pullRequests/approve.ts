@@ -1,19 +1,40 @@
-import { octokit, PullRequestRef } from "./client";
+import { GithubActorContext, clientFromActor, callGithub } from "../shared/githubWriteClient";
+import { assertRepoPermission } from "../shared/permissionCheck";
+import { checkRateLimit } from "../shared/rateLimit";
+import { recordActionResult } from "../shared/auditLog";
 
-/**
- * Approves a pull request by submitting an APPROVE review.
- * Calls: POST /repos/{owner}/{repo}/pulls/{pull_number}/reviews
- */
-export async function approve(ref: PullRequestRef, body?: string) {
-  const { owner, repo, pull_number } = ref;
+export interface ApprovePullRequestInput {
+  owner: string;
+  repo: string;
+  pullNumber: number;
+  body?: string;
+}
 
-  const response = await octokit.pulls.createReview({
-    owner,
-    repo,
-    pull_number,
-    event: "APPROVE",
-    body,
-  });
+const ACTION = "pulls.approve";
 
-  return response.data;
+export async function approvePullRequest(actor: GithubActorContext, input: ApprovePullRequestInput) {
+  const target = `${input.owner}/${input.repo}#${input.pullNumber}`;
+  try {
+    await assertRepoPermission(actor, input.owner, input.repo, "write");
+    checkRateLimit(actor.userId, ACTION);
+
+    const client = clientFromActor(actor);
+    const { data } = await callGithub(
+      () =>
+        client.pulls.createReview({
+          owner: input.owner,
+          repo: input.repo,
+          pull_number: input.pullNumber,
+          event: "APPROVE",
+          body: input.body,
+        }),
+      "pulls.createReview(APPROVE)"
+    );
+
+    await recordActionResult({ actor, action: ACTION, target });
+    return data;
+  } catch (err) {
+    await recordActionResult({ actor, action: ACTION, target, error: err });
+    throw err;
+  }
 }
